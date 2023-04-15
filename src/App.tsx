@@ -2,8 +2,6 @@ import React, {useEffect, useState} from 'react';
 import ParticleSimulator from './Components/ParticleSimulator';
 import './App.scss';
 import {
-	GITHUB_LINK_TEXT,
-	GITHUB_URL,
 	PARTICLES_COUNT_COMPUTER,
 	PARTICLES_COUNT_MOBILE,
 } from './Constants/constant-particle-simulator';
