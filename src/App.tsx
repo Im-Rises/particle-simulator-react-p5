@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import ParticleSimulator from './Components/ParticleSimulator';
-import GitHubProjectPanel from './Components/GitHubProjectPanel';
 import './App.scss';
 import {
 	GITHUB_LINK_TEXT,
@@ -21,10 +20,6 @@ const App: React.FC = () => {
 
 	return (
 		<div className='App'>
-			<header>
-				<GitHubProjectPanel link={GITHUB_URL}
-					linkText={GITHUB_LINK_TEXT}/>
-			</header>
 			<div ref={divRef}>
 				{isLoaded ? (
 					<div className={'particle-sim-canvas'}>

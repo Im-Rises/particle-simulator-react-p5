@@ -17,8 +17,10 @@ This is a particle simulator package made with React Typescript and p5.js.
 
 It works on desktop and mobile as well with different controls (check the `controls` section).
 
-The particles are set randomly on the screen in a square shape. Their color change according to their speed from blue to
-purple and then to pink.
+The particles are set randomly on the screen in a circle shape. Their color change according to the speed of the
+particle. The particles are attracted to the mouse and they are repelled from the edges of the screen. You can toggle
+attract/repel by clicking with the mouse button on a screen. On tablet and mobile de the touch screen to move the
+particles by dragging your finger. To toggle attract/repel tap on the screen.
 
 ## 🚀🚀 [The package is available on npm](https://www.npmjs.com/package/particle-simulator-react-p5) 🚀🚀
 
