@@ -120,8 +120,8 @@ const App: React.FC = () => {
                     <div className={'particle-sim-canvas'}>
                         <ParticleSimulator
                             parentRef={divRef}
-                            particleCountMobile={PARTICLES_COUNT_MOBILE}
-                            particleCountComputer={PARTICLES_COUNT_COMPUTER}
+                            particleCountMobile={1000}
+                            particleCountComputer={3000}
                             fixedUpdate={60}
                             frameRate={60}
                             spawnAreaRadius={100}
