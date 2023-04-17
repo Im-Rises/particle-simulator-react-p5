@@ -133,7 +133,7 @@ const App: React.FC = () => {
                             pixelsPerMeter={100}
                             initColor={[0, 255, 255, 200]}
                             finalColor={[255, 0, 255, 200]}
-                            colorModifierMeters={0.3}
+                            maxVelocityColor={5}
                             backColor={[0, 0, 0, 255]}
                         />
                     </div>
@@ -164,7 +164,7 @@ The component takes 1 to 16 props:
 - `pixelsPerMeter` - the number of pixels per meter (in meters).
 - `initColor` - the initial color of the particles (in RGB).
 - `finalColor` - the final color of the particles (in RGB).
-- `colorModifierMeters` - the number of meters after which the color of the particles changes.
+- `maxVelocityColor` - the maximum velocity of the particles at which the color will be the final color.
 - `backColor` - the background color of the canvas (in RGB).
 
 This will create a canvas with 3000 particles on desktop and 1000 on mobile in fullscreen which will be resized
