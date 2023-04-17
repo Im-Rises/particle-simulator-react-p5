@@ -83,6 +83,43 @@ const App: React.FC = () => {
                     <div className={'particle-sim-canvas'}>
                         <ParticleSimulator
                             parentRef={divRef}
+                        />
+                    </div>
+                ) : (
+                    <p className={'wait-sim-canvas'}>Loading...</p>
+                )}
+            </div>
+        </div>
+    );
+};
+
+export default App;
+```
+
+or you can change all the settings like this:
+
+```tsx
+import React, {useEffect, useState} from 'react';
+import ParticleSimulator from './Components/ParticleSimulator';
+import './App.css';
+
+const App: React.FC = () => {
+    const [isLoaded, setIsLoaded] = useState(false);
+    const divRef = React.useRef <HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (divRef.current) {
+            setIsLoaded(true);
+        }
+    }, [divRef]);
+
+    return (
+        <div className='App'>
+            <div ref={divRef}>
+                {isLoaded ? (
+                    <div className={'particle-sim-canvas'}>
+                        <ParticleSimulator
+                            parentRef={divRef}
                             particleCountMobile={PARTICLES_COUNT_MOBILE}
                             particleCountComputer={PARTICLES_COUNT_COMPUTER}
                             fixedUpdate={60}
@@ -111,7 +148,7 @@ const App: React.FC = () => {
 export default App;
 ```
 
-The component takes 6 props:
+The component takes 1 to 16 props:
 
 - `parentRef` - a reference to the parent div of the canvas. It is used to get the size of the canvas.
 - `particleCountMobile` - the number of particles on mobile devices.
@@ -128,9 +165,13 @@ The component takes 6 props:
 - `initColor` - the initial color of the particles (in RGB).
 - `finalColor` - the final color of the particles (in RGB).
 - `colorModifierMeters` - the number of meters after which the color of the particles changes.
+- `backColor` - the background color of the canvas (in RGB).
 
 This will create a canvas with 3000 particles on desktop and 1000 on mobile in fullscreen which will be resized
 when the window is resized.
+
+> **Note**
+> The default values of the props are the same as the ones in the example above.
 
 You can find the complete example of the project in the GitHub
 repository [here](https://im-rises.github.io/particle-simulator-react-p5-website).

@@ -23,9 +23,9 @@
     "dist/Classes/Attractor.js",
     "dist/Classes/Attractor.d.ts",
     "dist/Classes/Attractor.d.ts.map",
-    "dist/Constants/Constants.js",
-    "dist/Constants/Constants.d.ts",
-    "dist/Constants/Constants.d.ts.map"
+    "dist/Constants/constant-particle-simulator.js",
+    "dist/Constants/constant-particle-simulator.d.ts",
+    "dist/Constants/constant-particle-simulator.d.ts.map"
   ],
   "keywords": [
     "react",
