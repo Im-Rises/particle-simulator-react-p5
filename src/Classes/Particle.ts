@@ -7,7 +7,7 @@ class Particle {
 	static distanceCenterOffset = 10;
 	static initialColor: p5Types.Color;
 	static finalColor: p5Types.Color;
-	static colorModifierMeters = 1;
+	static maxColorVelocity = 1;
 
 	static setMass(mass: number) {
 		Particle.mass = mass;
@@ -29,8 +29,8 @@ class Particle {
 		Particle.finalColor = centerColor;
 	}
 
-	static setColorModifierMeters(colorModifierMeters: number) {
-		Particle.colorModifierMeters = colorModifierMeters;
+	static setMaxColorVelocity(value: number) {
+		this.maxColorVelocity = value;
 	}
 
 	position: p5Types.Vector;
@@ -82,8 +82,8 @@ class Particle {
 			this.position.y = 0;
 		}
 
-		/* Calculate new color according to distance from attractor */
-		this.color = p5.lerpColor(Particle.initialColor, Particle.finalColor, Particle.colorModifierMeters / distanceNormalized);
+		/* Calculate new color according to the velocity */
+		this.color = p5.lerpColor(Particle.initialColor, Particle.finalColor, this.velocity.mag() / Particle.maxColorVelocity);
 	}
 
 	show(p5: p5Types) {

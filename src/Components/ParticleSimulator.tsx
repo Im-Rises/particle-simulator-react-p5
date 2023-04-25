@@ -4,39 +4,54 @@ import type p5Types from 'p5';
 import {isMobile} from 'react-device-detect';
 import Attractor from '../Classes/Attractor';
 import Particle from '../Classes/Particle';
+import {PARTICLES_COUNT_COMPUTER, PARTICLES_COUNT_MOBILE} from '../Constants/constant-particle-simulator';
 
 type Quadruplet = [number, number, number, number];
 
 type ComponentProps = {
 	parentRef: React.RefObject<HTMLElement>;
-	particleCountMobile: number;
-	particleCountComputer: number;
-	frameRate: number;
-	fixedUpdate: number;
-	spawnAreaRadius: number;
-	gravitationalConstant: number;
-	particlesMass: number;
-	attractorMass: number;
-	friction: number;
-	distanceOffset: number;
-	pixelsPerMeter: number;
-	initColor: Quadruplet;
-	finalColor: Quadruplet;
-	colorModifierMeters: number;
-	backColor: Quadruplet;
+	particleCountMobile?: number;
+	particleCountComputer?: number;
+	frameRate?: number;
+	fixedUpdate?: number;
+	spawnAreaRadius?: number;
+	gravitationalConstant?: number;
+	particlesMass?: number;
+	attractorMass?: number;
+	friction?: number;
+	distanceOffset?: number;
+	pixelsPerMeter?: number;
+	initColor?: Quadruplet;
+	finalColor?: Quadruplet;
+	maxColorVelocity?: number;
+	maxVelocityColor?: number;
+	backColor?: Quadruplet;
 };
 
 const ParticleSimulator: React.FC<ComponentProps> = (props: ComponentProps) => {
-	// Gravity constant
-	const G = props.gravitationalConstant;
-
-	// Pixels per meter (for the scale normalization)
-	const pixelPerMeter = props.pixelsPerMeter;
+	const {
+		parentRef,
+		particleCountMobile = PARTICLES_COUNT_MOBILE,
+		particleCountComputer = PARTICLES_COUNT_COMPUTER,
+		frameRate = 60,
+		fixedUpdate = 60,
+		spawnAreaRadius = 100,
+		gravitationalConstant = 1,
+		particlesMass = 50,
+		attractorMass = 250,
+		friction = 0.99,
+		distanceOffset = 10,
+		pixelsPerMeter = 100,
+		initColor = [0, 255, 255, 200],
+		finalColor = [255, 0, 255, 200],
+		maxColorVelocity = 5,
+		backColor = [0, 0, 0, 255],
+	} = props;
 
 	// Time variables
 	let previousTime = 0;
 	let fixedUpdateAccum = 0;
-	const fixedDeltaTime = 1 / props.fixedUpdate;
+	const fixedDeltaTime = 1 / fixedUpdate;
 
 	// Attractor and Particles array
 	const particleArray: Particle[] = [];
@@ -52,32 +67,32 @@ const ParticleSimulator: React.FC<ComponentProps> = (props: ComponentProps) => {
 			.parent(canvasParentRef);
 
 		// Create graphics
-		screenBuffer = p5.createGraphics(props.parentRef.current!.clientWidth, props.parentRef.current!.clientHeight, p5.P2D);
+		screenBuffer = p5.createGraphics(parentRef.current!.clientWidth, parentRef.current!.clientHeight, p5.P2D);
 
 		// Set frame rate to 60
-		p5.frameRate(props.frameRate);
+		p5.frameRate(frameRate);
 
 		// Set up init mouse position
 		p5.mouseX = p5.width / 2;
 		p5.mouseY = p5.height / 2;
 
 		// Create attractor
-		attractor = new Attractor(p5, props.attractorMass);
+		attractor = new Attractor(p5, attractorMass);
 
 		// Create and set the particles around the center of the screen as a square
-		Particle.setMass(props.particlesMass);
-		Particle.setFriction(props.friction);
-		Particle.setDistanceCenterOffset(props.distanceOffset);
-		Particle.setInitialColor(p5.color(props.initColor[0], props.initColor[1], props.initColor[2], props.initColor[3]));
-		Particle.setFinalColor(p5.color(props.finalColor[0], props.finalColor[1], props.finalColor[2], props.finalColor[3]));
-		Particle.setColorModifierMeters(props.colorModifierMeters);
-		for (let i = 0; i < (isMobile ? props.particleCountMobile : props.particleCountComputer); i++) {
+		Particle.setMass(particlesMass);
+		Particle.setFriction(friction);
+		Particle.setDistanceCenterOffset(distanceOffset);
+		Particle.setInitialColor(p5.color(initColor[0], initColor[1], initColor[2], initColor[3]));
+		Particle.setFinalColor(p5.color(finalColor[0], finalColor[1], finalColor[2], finalColor[3]));
+		Particle.setMaxColorVelocity(maxColorVelocity);
+		for (let i = 0; i < (isMobile ? particleCountMobile : particleCountComputer); i++) {
 			// Define particles spawn in a circle
 			const randomFloat = (min: number, max: number) => min + ((max - min) * Math.random());
 			const randomAngle1 = randomFloat(0, 2 * Math.PI);
 			const randomAngle2 = randomFloat(0, 2 * Math.PI);
-			const posX = (p5.width / 2) + (props.spawnAreaRadius * Math.cos(randomAngle1) * Math.sin(randomAngle2));
-			const posY = (p5.height / 2) + (props.spawnAreaRadius * Math.sin(randomAngle1) * Math.sin(randomAngle2));
+			const posX = (p5.width / 2) + (spawnAreaRadius * Math.cos(randomAngle1) * Math.sin(randomAngle2));
+			const posY = (p5.height / 2) + (spawnAreaRadius * Math.sin(randomAngle1) * Math.sin(randomAngle2));
 
 			// Create particle
 			particleArray.push(new Particle(p5,
@@ -110,14 +125,14 @@ const ParticleSimulator: React.FC<ComponentProps> = (props: ComponentProps) => {
 			attractor.update(p5);
 			// Update particles
 			particleArray.forEach(particle => {
-				particle.update(p5, attractor, fixedDeltaTime, G, pixelPerMeter);
+				particle.update(p5, attractor, fixedDeltaTime, gravitationalConstant, pixelsPerMeter);
 			});
 			fixedUpdateAccum = 0;
 		}
 
 		/* Update canvas */
 		// Clear canvas
-		screenBuffer.background(props.backColor[0], props.backColor[1], props.backColor[2], props.backColor[3]);
+		screenBuffer.background(backColor[0], backColor[1], backColor[2], backColor[3]);
 
 		// Draw objects
 		attractor.show(screenBuffer);
