@@ -129,11 +129,11 @@ const App: React.FC = () => {
                             particlesMass={50}
                             attractorMass={250}
                             friction={0.99}
-                            distanceOffset={10}
+                            softening={10}
                             pixelsPerMeter={100}
                             initColor={[0, 255, 255, 200]}
                             finalColor={[255, 0, 255, 200]}
-                            maxVelocityColor={5}
+                            maxColorVelocity={5}
                             backColor={[0, 0, 0, 255]}
                         />
                     </div>
@@ -160,11 +160,11 @@ The component takes 1 to 16 props:
 - `particlesMass` - the mass of the particles.
 - `attractorMass` - the mass of the attractor.
 - `friction` - the friction of the particles.
-- `distanceOffset` - the distance offset of the particles.
+- `softening` - the softening parameter of the gravitational force calculation.
 - `pixelsPerMeter` - the number of pixels per meter (in meters).
 - `initColor` - the initial color of the particles (in RGB).
 - `finalColor` - the final color of the particles (in RGB).
-- `maxVelocityColor` - the maximum velocity of the particles at which the color will be the final color.
+- `maxColorVelocity` - the maximum velocity of the particles at which the color will be the final color.
 - `backColor` - the background color of the canvas (in RGB).
 
 This will create a canvas with 3000 particles on desktop and 1000 on mobile in fullscreen which will be resized
@@ -188,10 +188,10 @@ $$ F = G \frac{m_1 m_2}{r^2} $$
 There is a small offset between the particles to avoid the particles from having an infinite acceleration if they are
 too close from the attractor.
 
-$$ F = G \frac{m_1 m_2}{(r + d)^2} $$
+$$ F = G \frac{m_1 m_2}{(r + \epsilon)^2} $$
 
-r is the distance between the particles and d is the offset (the offset parameter is the `distanceOffset` prop of the
-component).
+Where G is the gravitational constant, m1 and m2 are the masses of the particles, r is the distance between the
+particles and d is the softening parameter.
 
 ## Known issues
 
