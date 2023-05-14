@@ -188,7 +188,7 @@ $$ F = G \frac{m_1 m_2}{r^2} $$
 There is a small offset between the particles to avoid the particles from having an infinite acceleration if they are
 too close from the attractor.
 
-$$ F = G \frac{m_1 m_2}{(r + \epsilon)^2} $$
+$$ F = G \frac{m_1 m_2}{(r^2 + \epsilon^2)^\frac{3}{2}} $$
 
 Where G is the gravitational constant, m1 and m2 are the masses of the particles, r is the distance between the
 particles and d is the softening parameter.

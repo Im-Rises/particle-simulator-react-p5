@@ -4,7 +4,7 @@ import type Attractor from './Attractor';
 class Particle {
 	static mass = 50;
 	static friction = 0.99;
-	static distanceCenterOffset = 10;
+	static softening = 10;
 	static initialColor: p5Types.Color;
 	static finalColor: p5Types.Color;
 	static maxColorVelocity = 1;
@@ -17,8 +17,8 @@ class Particle {
 		Particle.friction = friction;
 	}
 
-	static setDistanceCenterOffset(distanceCenterOffset: number) {
-		Particle.distanceCenterOffset = distanceCenterOffset;
+	static setSoftening(softening: number) {
+		Particle.softening = softening;
 	}
 
 	static setInitialColor(initialColor: p5Types.Color) {
@@ -50,7 +50,8 @@ class Particle {
 		/* Calculate acceleration */
 		const toTargetNormalized = p5Types.Vector.sub(target.position, this.position).div(pixelPerMeter);
 		const distanceNormalized = (toTargetNormalized.copy().mag());
-		const distanceSquaredNormalized = (distanceNormalized * distanceNormalized) + Particle.distanceCenterOffset;
+		// const distanceSquaredNormalized = (distanceNormalized * distanceNormalized) + Particle.distanceCenterOffset;
+		const distanceSquaredNormalized = ((distanceNormalized ** 2) + (Particle.softening ** 2)) ** (3 / 2);
 
 		// Sum of forces = (G * m1 * m2 / r^2 ) multiplied by the normalized vector toTarget to get the direction of the force
 		const force = toTargetNormalized.copy().normalize().mult(G * target.mass * Particle.mass / distanceSquaredNormalized);
