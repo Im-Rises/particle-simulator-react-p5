@@ -129,7 +129,7 @@ const App: React.FC = () => {
                             particlesMass={50}
                             attractorMass={250}
                             friction={0.99}
-                            softening={2}
+                            softening={10}
                             pixelsPerMeter={100}
                             initColor={[0, 255, 255, 200]}
                             finalColor={[255, 0, 255, 200]}
@@ -185,8 +185,14 @@ The calculations are made with the [Newtonian mechanics](https://en.wikipedia.or
 
 $$ F = G \frac{m_1 m_2}{r^2} $$
 
-There is a small offset between the particles to avoid the particles from having an infinite acceleration if they are
-too close from the attractor.
+To prevent to have a division by zero when the particles are too close to each other, we add a softening parameter
+$\epsilon$.
+The implementation is not made to be physically accurate, but to be visually appealing. By adding the offset $\epsilon$
+directly like below, the particles will come from a far distance faster than they should.
+
+$$ F = G \frac{m_1 m_2}{r^2 + \epsilon} $$
+
+One of the real force calculation with softening could be like this:
 
 $$ F = G \frac{m_1 m_2}{(r^2 + \epsilon^2)^\frac{3}{2}} $$
 
