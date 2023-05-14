@@ -1,10 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import ParticleSimulator from './Components/ParticleSimulator';
 import './App.scss';
-import {
-	PARTICLES_COUNT_COMPUTER,
-	PARTICLES_COUNT_MOBILE,
-} from './Constants/constant-particle-simulator';
 
 const App: React.FC = () => {
 	const [isLoaded, setIsLoaded] = useState(false);

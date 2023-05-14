@@ -39,7 +39,7 @@ const ParticleSimulator: React.FC<ComponentProps> = (props: ComponentProps) => {
 		particlesMass = 50,
 		attractorMass = 250,
 		friction = 0.99,
-		softening = 10,
+		softening = 2,
 		pixelsPerMeter = 100,
 		initColor = [0, 255, 255, 200],
 		finalColor = [255, 0, 255, 200],
@@ -81,7 +81,7 @@ const ParticleSimulator: React.FC<ComponentProps> = (props: ComponentProps) => {
 		// Create and set the particles around the center of the screen as a square
 		Particle.setMass(particlesMass);
 		Particle.setFriction(friction);
-		Particle.setDistanceCenterOffset(softening);
+		Particle.setSoftening(softening);
 		Particle.setInitialColor(p5.color(initColor[0], initColor[1], initColor[2], initColor[3]));
 		Particle.setFinalColor(p5.color(finalColor[0], finalColor[1], finalColor[2], finalColor[3]));
 		Particle.setMaxColorVelocity(maxColorVelocity);

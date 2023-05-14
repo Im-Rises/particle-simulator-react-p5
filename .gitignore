@@ -4,7 +4,6 @@
 [Dd]ocs/
 [Tt]rash/
 [Bb]uild/
-node_modules/
 *.idea/
 
 
