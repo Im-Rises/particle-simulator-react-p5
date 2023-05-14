@@ -129,7 +129,7 @@ const App: React.FC = () => {
                             particlesMass={50}
                             attractorMass={250}
                             friction={0.99}
-                            softening={10}
+                            softening={2}
                             pixelsPerMeter={100}
                             initColor={[0, 255, 255, 200]}
                             finalColor={[255, 0, 255, 200]}

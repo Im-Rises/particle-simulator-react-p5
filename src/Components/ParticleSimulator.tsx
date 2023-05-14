@@ -39,7 +39,6 @@ const ParticleSimulator: React.FC<ComponentProps> = (props: ComponentProps) => {
 		particlesMass = 50,
 		attractorMass = 250,
 		friction = 0.99,
-		// softening = 10,
 		softening = 2,
 		pixelsPerMeter = 100,
 		initColor = [0, 255, 255, 200],
