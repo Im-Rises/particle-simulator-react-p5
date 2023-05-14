@@ -50,7 +50,7 @@ class Particle {
 		/* Calculate acceleration */
 		const toTargetNormalized = p5Types.Vector.sub(target.position, this.position).div(pixelPerMeter);
 		const distanceNormalized = (toTargetNormalized.copy().mag());
-		// const distanceSquaredNormalized = (distanceNormalized * distanceNormalized) + Particle.distanceCenterOffset;
+		// const distanceSquaredNormalized = (distanceNormalized * distanceNormalized) + Particle.softening;
 		const distanceSquaredNormalized = ((distanceNormalized ** 2) + (Particle.softening ** 2)) ** (3 / 2);
 
 		// Sum of forces = (G * m1 * m2 / r^2 ) multiplied by the normalized vector toTarget to get the direction of the force
