@@ -27,31 +27,31 @@ type ComponentProps = {
 	backColor?: Quadruplet;
 };
 
+const defaultProps = {
+	particleCountMobile: PARTICLES_COUNT_MOBILE,
+	particleCountComputer: PARTICLES_COUNT_COMPUTER,
+	frameRate: 60,
+	fixedUpdate: 60,
+	spawnAreaRadius: 100,
+	gravitationalConstant: 1,
+	particlesMass: 50,
+	attractorMass: 250,
+	friction: 0.99,
+	softening: 10,
+	pixelsPerMeter: 100,
+	initColor: [0, 255, 255, 200],
+	finalColor: [255, 0, 255, 200],
+	maxColorVelocity: 5,
+	backColor: [0, 0, 0, 255],
+};
+
 const ParticleSimulator: React.FC<ComponentProps> = (props: ComponentProps) => {
-	const {
-		parentRef,
-		particleCountMobile = PARTICLES_COUNT_MOBILE,
-		particleCountComputer = PARTICLES_COUNT_COMPUTER,
-		frameRate = 60,
-		fixedUpdate = 60,
-		spawnAreaRadius = 100,
-		gravitationalConstant = 1,
-		particlesMass = 50,
-		attractorMass = 250,
-		friction = 0.99,
-		// softening = 2,
-		softening = 10,
-		pixelsPerMeter = 100,
-		initColor = [0, 255, 255, 200],
-		finalColor = [255, 0, 255, 200],
-		maxColorVelocity = 5,
-		backColor = [0, 0, 0, 255],
-	} = props;
+	const mergedProps = {...defaultProps, ...props};
 
 	// Time variables
 	let previousTime = 0;
 	let fixedUpdateAccum = 0;
-	const fixedDeltaTime = 1 / fixedUpdate;
+	const fixedDeltaTime = 1 / mergedProps.fixedUpdate;
 
 	// Attractor and Particles array
 	const particleArray: Particle[] = [];
@@ -63,36 +63,42 @@ const ParticleSimulator: React.FC<ComponentProps> = (props: ComponentProps) => {
 	// Sketch setup
 	const setup = (p5: p5Types, canvasParentRef: Element) => {
 		// Create canvas
-		const canvas = p5.createCanvas(props.parentRef.current!.clientWidth, props.parentRef.current!.clientHeight, p5.P2D)
+		const canvas = p5.createCanvas(mergedProps.parentRef.current!.clientWidth, mergedProps.parentRef.current!.clientHeight, p5.P2D)
 			.parent(canvasParentRef);
 
 		// Create graphics
-		screenBuffer = p5.createGraphics(parentRef.current!.clientWidth, parentRef.current!.clientHeight, p5.P2D);
+		screenBuffer = p5.createGraphics(mergedProps.parentRef.current!.clientWidth, mergedProps.parentRef.current!.clientHeight, p5.P2D);
 
 		// Set frame rate to 60
-		p5.frameRate(frameRate);
+		p5.frameRate(mergedProps.frameRate);
 
 		// Set up init mouse position
 		p5.mouseX = p5.width / 2;
 		p5.mouseY = p5.height / 2;
 
 		// Create attractor
-		attractor = new Attractor(p5, attractorMass);
+		attractor = new Attractor(p5, mergedProps.attractorMass);
 
 		// Create and set the particles around the center of the screen as a square
-		Particle.setMass(particlesMass);
-		Particle.setFriction(friction);
-		Particle.setSoftening(softening);
-		Particle.setInitialColor(p5.color(initColor[0], initColor[1], initColor[2], initColor[3]));
-		Particle.setFinalColor(p5.color(finalColor[0], finalColor[1], finalColor[2], finalColor[3]));
-		Particle.setMaxColorVelocity(maxColorVelocity);
-		for (let i = 0; i < (isMobile ? particleCountMobile : particleCountComputer); i++) {
+		Particle.setMass(mergedProps.particlesMass);
+		Particle.setFriction(mergedProps.friction);
+		Particle.setSoftening(mergedProps.softening);
+		Particle.setInitialColor(p5.color(mergedProps.initColor[0],
+			mergedProps.initColor[1],
+			mergedProps.initColor[2],
+			mergedProps.initColor[3]));
+		Particle.setFinalColor(p5.color(mergedProps.finalColor[0],
+			mergedProps.finalColor[1],
+			mergedProps.finalColor[2],
+			mergedProps.finalColor[3]));
+		Particle.setMaxColorVelocity(mergedProps.maxColorVelocity);
+		for (let i = 0; i < (isMobile ? mergedProps.particleCountMobile : mergedProps.particleCountComputer); i++) {
 			// Define particles spawn in a circle
 			const randomFloat = (min: number, max: number) => min + ((max - min) * Math.random());
 			const randomAngle1 = randomFloat(0, 2 * Math.PI);
 			const randomAngle2 = randomFloat(0, 2 * Math.PI);
-			const posX = (p5.width / 2) + (spawnAreaRadius * Math.cos(randomAngle1) * Math.sin(randomAngle2));
-			const posY = (p5.height / 2) + (spawnAreaRadius * Math.sin(randomAngle1) * Math.sin(randomAngle2));
+			const posX = (p5.width / 2) + (mergedProps.spawnAreaRadius * Math.cos(randomAngle1) * Math.sin(randomAngle2));
+			const posY = (p5.height / 2) + (mergedProps.spawnAreaRadius * Math.sin(randomAngle1) * Math.sin(randomAngle2));
 
 			// Create particle
 			particleArray.push(new Particle(p5,
@@ -125,14 +131,14 @@ const ParticleSimulator: React.FC<ComponentProps> = (props: ComponentProps) => {
 			attractor.update(p5);
 			// Update particles
 			particleArray.forEach(particle => {
-				particle.update(p5, attractor, fixedDeltaTime, gravitationalConstant, pixelsPerMeter);
+				particle.update(p5, attractor, fixedDeltaTime, mergedProps.gravitationalConstant, mergedProps.pixelsPerMeter);
 			});
 			fixedUpdateAccum = 0;
 		}
 
 		/* Update canvas */
 		// Clear canvas
-		screenBuffer.background(backColor[0], backColor[1], backColor[2], backColor[3]);
+		screenBuffer.background(mergedProps.backColor[0], mergedProps.backColor[1], mergedProps.backColor[2], mergedProps.backColor[3]);
 
 		// Draw objects
 		attractor.show(screenBuffer);
@@ -146,8 +152,8 @@ const ParticleSimulator: React.FC<ComponentProps> = (props: ComponentProps) => {
 
 	// Sketch window resize
 	const windowResized = (p5: p5Types) => {
-		p5.resizeCanvas(props.parentRef.current!.clientWidth, props.parentRef.current!.clientHeight);
-		screenBuffer.resizeCanvas(props.parentRef.current!.clientWidth, props.parentRef.current!.clientHeight);
+		p5.resizeCanvas(mergedProps.parentRef.current!.clientWidth, mergedProps.parentRef.current!.clientHeight);
+		screenBuffer.resizeCanvas(mergedProps.parentRef.current!.clientWidth, mergedProps.parentRef.current!.clientHeight);
 	};
 
 	return (
