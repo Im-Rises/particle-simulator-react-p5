@@ -62,15 +62,6 @@ const ParticleSimulator: React.FC<ComponentProps> = (props: ComponentProps) => {
 	let screenBuffer: p5Types.Graphics;
 
 	const forceDivCanvasHolderAndCanvasSttyle = (canvas: p5Types.Element, canvasParentRef: Element) => {
-
-	};
-
-	// Sketch setup
-	const setup = (p5: p5Types, canvasParentRef: Element) => {
-		// Create canvas
-		const canvas = p5.createCanvas(mergedProps.parentRef.current!.clientWidth, mergedProps.parentRef.current!.clientHeight, p5.P2D)
-			.parent(canvasParentRef);
-
 		// Set up canvas holder styles manually
 		canvasParentRef.removeAttribute('style');
 		canvasParentRef.removeAttribute('class');
@@ -80,6 +71,16 @@ const ParticleSimulator: React.FC<ComponentProps> = (props: ComponentProps) => {
 		canvas.removeAttribute('style');
 		canvas.removeAttribute('class');
 		canvas.addClass('canvas-p5-modifier');
+	};
+
+	// Sketch setup
+	const setup = (p5: p5Types, canvasParentRef: Element) => {
+		// Create canvas
+		const canvas = p5.createCanvas(mergedProps.parentRef.current!.clientWidth, mergedProps.parentRef.current!.clientHeight, p5.P2D)
+			.parent(canvasParentRef);
+
+		// Force the style and class of the p5 library elements
+		forceDivCanvasHolderAndCanvasSttyle(canvas, canvasParentRef);
 
 		// Create graphics
 		screenBuffer = p5.createGraphics(mergedProps.parentRef.current!.clientWidth, mergedProps.parentRef.current!.clientHeight, p5.P2D);
@@ -113,9 +114,9 @@ const ParticleSimulator: React.FC<ComponentProps> = (props: ComponentProps) => {
 			const randomAngle1 = randomFloat(0, 2 * Math.PI);
 			const randomAngle2 = randomFloat(0, 2 * Math.PI);
 			const posX = ((p5.width / 2) / mergedProps.pixelsPerMeter)
-				+ (mergedProps.spawnAreaRadius * Math.cos(randomAngle1) * Math.sin(randomAngle2));
+                + (mergedProps.spawnAreaRadius * Math.cos(randomAngle1) * Math.sin(randomAngle2));
 			const posY = ((p5.height / 2) / mergedProps.pixelsPerMeter)
-				+ (mergedProps.spawnAreaRadius * Math.sin(randomAngle1) * Math.sin(randomAngle2));
+                + (mergedProps.spawnAreaRadius * Math.sin(randomAngle1) * Math.sin(randomAngle2));
 			// Create particle
 			particleArray.push(new Particle(p5,
 				posX,
