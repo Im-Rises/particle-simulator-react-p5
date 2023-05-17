@@ -5,6 +5,7 @@ import {isMobile} from 'react-device-detect';
 import Attractor from '../Classes/Attractor';
 import Particle from '../Classes/Particle';
 import {PARTICLES_COUNT_COMPUTER, PARTICLES_COUNT_MOBILE} from '../Constants/constant-particle-simulator';
+import './ParticleSimulator.scss';
 
 type Quadruplet = [number, number, number, number];
 
@@ -60,11 +61,25 @@ const ParticleSimulator: React.FC<ComponentProps> = (props: ComponentProps) => {
 	// P5 variables
 	let screenBuffer: p5Types.Graphics;
 
+	const forceDivCanvasHolderAndCanvasSttyle = (canvas: p5Types.Element, canvasParentRef: Element) => {
+
+	};
+
 	// Sketch setup
 	const setup = (p5: p5Types, canvasParentRef: Element) => {
 		// Create canvas
 		const canvas = p5.createCanvas(mergedProps.parentRef.current!.clientWidth, mergedProps.parentRef.current!.clientHeight, p5.P2D)
 			.parent(canvasParentRef);
+
+		// Set up canvas holder styles manually
+		canvasParentRef.removeAttribute('style');
+		canvasParentRef.removeAttribute('class');
+		canvasParentRef.className = 'div-canvas-holder-modifier';
+
+		// Set up canvas styles manually
+		canvas.removeAttribute('style');
+		canvas.removeAttribute('class');
+		canvas.addClass('canvas-p5-modifier');
 
 		// Create graphics
 		screenBuffer = p5.createGraphics(mergedProps.parentRef.current!.clientWidth, mergedProps.parentRef.current!.clientHeight, p5.P2D);
