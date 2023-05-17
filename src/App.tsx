@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import ParticleSimulator from './Components/ParticleSimulator';
+import ParticleSimulator from './components/ParticleSimulator';
 import './App.scss';
 
 const App: React.FC = () => {

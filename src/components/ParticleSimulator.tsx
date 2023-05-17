@@ -2,9 +2,9 @@ import React from 'react';
 import Sketch from 'react-p5';
 import type p5Types from 'p5';
 import {isMobile} from 'react-device-detect';
-import Attractor from '../Classes/Attractor';
-import Particle from '../Classes/Particle';
-import {PARTICLES_COUNT_COMPUTER, PARTICLES_COUNT_MOBILE} from '../Constants/constant-particle-simulator';
+import Attractor from '../classes/Attractor';
+import Particle from '../classes/Particle';
+import {PARTICLES_COUNT_COMPUTER, PARTICLES_COUNT_MOBILE} from '../constants/constant-particle-simulator';
 
 type Quadruplet = [number, number, number, number];
 
@@ -60,11 +60,21 @@ const ParticleSimulator: React.FC<ComponentProps> = (props: ComponentProps) => {
 	// P5 variables
 	let screenBuffer: p5Types.Graphics;
 
+	const forceDivCanvasHolderAndCanvasSttyle = (canvas: p5Types.Element, canvasParentRef: Element) => {
+		// Set up canvas holder styles manually
+		canvasParentRef.setAttribute('style', 'overflow: hidden; width: 100%; height: 100%;');
+		// Set up canvas styles manually
+		canvas.attribute('style', 'overflow: hidden; width: 100%; height: 100%;');
+	};
+
 	// Sketch setup
 	const setup = (p5: p5Types, canvasParentRef: Element) => {
 		// Create canvas
 		const canvas = p5.createCanvas(mergedProps.parentRef.current!.clientWidth, mergedProps.parentRef.current!.clientHeight, p5.P2D)
 			.parent(canvasParentRef);
+
+		// Force the style and class of the p5 library elements
+		forceDivCanvasHolderAndCanvasSttyle(canvas, canvasParentRef);
 
 		// Create graphics
 		screenBuffer = p5.createGraphics(mergedProps.parentRef.current!.clientWidth, mergedProps.parentRef.current!.clientHeight, p5.P2D);
@@ -98,9 +108,9 @@ const ParticleSimulator: React.FC<ComponentProps> = (props: ComponentProps) => {
 			const randomAngle1 = randomFloat(0, 2 * Math.PI);
 			const randomAngle2 = randomFloat(0, 2 * Math.PI);
 			const posX = ((p5.width / 2) / mergedProps.pixelsPerMeter)
-				+ (mergedProps.spawnAreaRadius * Math.cos(randomAngle1) * Math.sin(randomAngle2));
+                + (mergedProps.spawnAreaRadius * Math.cos(randomAngle1) * Math.sin(randomAngle2));
 			const posY = ((p5.height / 2) / mergedProps.pixelsPerMeter)
-				+ (mergedProps.spawnAreaRadius * Math.sin(randomAngle1) * Math.sin(randomAngle2));
+                + (mergedProps.spawnAreaRadius * Math.sin(randomAngle1) * Math.sin(randomAngle2));
 			// Create particle
 			particleArray.push(new Particle(p5,
 				posX,
