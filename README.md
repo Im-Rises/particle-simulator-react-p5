@@ -124,7 +124,7 @@ const App: React.FC = () => {
                             particleCountComputer={3000}
                             fixedUpdate={60}
                             frameRate={60}
-                            spawnAreaRadius={100}
+                            spawnAreaRadius={2}
                             gravitationalConstant={1}
                             particlesMass={50}
                             attractorMass={250}
@@ -155,13 +155,13 @@ The component takes 1 to 16 props:
 - `particleCountComputer` - the number of particles on desktop devices.
 - `fixedUpdate` - the number of fixed updates per second.
 - `frameRate` - the number of frames per second.
-- `spawnAreaRadius` - the radius of the spawn area of the particles (in pixels).
+- `spawnAreaRadius` - the radius of the spawn area of the particles (in meters).
 - `gravitationalConstant` - the gravitational constant of the simulation.
 - `particlesMass` - the mass of the particles.
 - `attractorMass` - the mass of the attractor.
 - `friction` - the friction of the particles.
 - `softening` - the softening parameter of the gravitational force calculation.
-- `pixelsPerMeter` - the number of pixels per meter (in meters).
+- `pixelsPerMeter` - the number of pixels to represent 1 meter.
 - `initColor` - the initial color of the particles (in RGB).
 - `finalColor` - the final color of the particles (in RGB).
 - `maxColorVelocity` - the maximum velocity of the particles at which the color will be the final color.

@@ -32,7 +32,7 @@ const defaultProps = {
 	particleCountComputer: PARTICLES_COUNT_COMPUTER,
 	frameRate: 60,
 	fixedUpdate: 60,
-	spawnAreaRadius: 100,
+	spawnAreaRadius: 1,
 	gravitationalConstant: 1,
 	particlesMass: 50,
 	attractorMass: 250,
@@ -97,10 +97,10 @@ const ParticleSimulator: React.FC<ComponentProps> = (props: ComponentProps) => {
 			const randomFloat = (min: number, max: number) => min + ((max - min) * Math.random());
 			const randomAngle1 = randomFloat(0, 2 * Math.PI);
 			const randomAngle2 = randomFloat(0, 2 * Math.PI);
-			const posX = ((p5.width / 2)
-                + (mergedProps.spawnAreaRadius * Math.cos(randomAngle1) * Math.sin(randomAngle2))) / (mergedProps.pixelsPerMeter);
-			const posY = ((p5.height / 2)
-                + (mergedProps.spawnAreaRadius * Math.sin(randomAngle1) * Math.sin(randomAngle2))) / (mergedProps.pixelsPerMeter);
+			const posX = ((p5.width / 2) / mergedProps.pixelsPerMeter)
+				+ (mergedProps.spawnAreaRadius * Math.cos(randomAngle1) * Math.sin(randomAngle2));
+			const posY = ((p5.height / 2) / mergedProps.pixelsPerMeter)
+				+ (mergedProps.spawnAreaRadius * Math.sin(randomAngle1) * Math.sin(randomAngle2));
 			// Create particle
 			particleArray.push(new Particle(p5,
 				posX,
