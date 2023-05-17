@@ -63,7 +63,7 @@ To use it you can simply add the component in your project like this:
 
 ```tsx
 import React, {useEffect, useState} from 'react';
-import ParticleSimulator from './Components/ParticleSimulator';
+import ParticleSimulator from 'particle-simulator-react-p5';
 import './App.css';
 
 const App: React.FC = () => {
@@ -100,7 +100,7 @@ or you can change all the settings like this:
 
 ```tsx
 import React, {useEffect, useState} from 'react';
-import ParticleSimulator from './Components/ParticleSimulator';
+import ParticleSimulator from 'particle-simulator-react-p5';
 import './App.css';
 
 const App: React.FC = () => {
