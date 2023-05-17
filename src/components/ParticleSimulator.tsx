@@ -2,8 +2,8 @@ import React from 'react';
 import Sketch from 'react-p5';
 import type p5Types from 'p5';
 import {isMobile} from 'react-device-detect';
-import Attractor from '../Classes/Attractor';
-import Particle from '../Classes/Particle';
+import Attractor from '../classes/Attractor';
+import Particle from '../classes/Particle';
 import {PARTICLES_COUNT_COMPUTER, PARTICLES_COUNT_MOBILE} from '../constants/constant-particle-simulator';
 import './ParticleSimulator.scss';
 
