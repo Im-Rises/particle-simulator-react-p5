@@ -5,7 +5,6 @@ import {isMobile} from 'react-device-detect';
 import Attractor from '../classes/Attractor';
 import Particle from '../classes/Particle';
 import {PARTICLES_COUNT_COMPUTER, PARTICLES_COUNT_MOBILE} from '../constants/constant-particle-simulator';
-import './ParticleSimulator.scss';
 
 type Quadruplet = [number, number, number, number];
 
@@ -63,14 +62,9 @@ const ParticleSimulator: React.FC<ComponentProps> = (props: ComponentProps) => {
 
 	const forceDivCanvasHolderAndCanvasSttyle = (canvas: p5Types.Element, canvasParentRef: Element) => {
 		// Set up canvas holder styles manually
-		canvasParentRef.removeAttribute('style');
-		canvasParentRef.removeAttribute('class');
-		canvasParentRef.className = 'div-canvas-holder-modifier';
-
+		canvasParentRef.setAttribute('style', 'overflow: hidden; width: 100%; height: 100%;');
 		// Set up canvas styles manually
-		canvas.removeAttribute('style');
-		canvas.removeAttribute('class');
-		canvas.addClass('canvas-p5-modifier');
+		canvas.attribute('style', 'overflow: hidden; width: 100%; height: 100%;');
 	};
 
 	// Sketch setup
