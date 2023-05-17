@@ -39,61 +39,57 @@ class Particle {
 
 	constructor(p5: p5Types, x: number, y: number) {
 		this.position = p5.createVector(x, y);
+		// this.position = p5.createVector(0, 0);
 		this.velocity = p5.createVector(0, 0);
 		this.color = Particle.initialColor;
 	}
 
-	update(p5: p5Types, target: Attractor, deltaTime: number, G: number, pixelPerMeter: number) {
-		/* Convert position to normalized units */
-		const positionNormalized = this.position.copy().div(pixelPerMeter);
-
+	update(p5: p5Types, target: Attractor, deltaTime: number, G: number) {
 		/* Calculate acceleration */
-		const toTargetNormalized = p5Types.Vector.sub(target.position, this.position).div(pixelPerMeter);
-		const distanceNormalized = (toTargetNormalized.copy().mag());
+		const toTarget = p5Types.Vector.sub(target.position, this.position);
+		const distance = (toTarget.copy().mag());
 		// const distanceSquaredNormalized = ((distanceNormalized ** 2) + (Particle.softening ** 2)) ** (3 / 2);
-		const distanceSquaredNormalized = ((distanceNormalized ** 2) + Particle.softening);
+		const distanceSquared = ((distance ** 2) + Particle.softening);
 
 		// Sum of forces = (G * m1 * m2 / r^2 ) multiplied by the normalized vector toTarget to get the direction of the force
-		const force = toTargetNormalized.copy().normalize().mult(G * target.mass * Particle.mass / distanceSquaredNormalized);
+		const force = toTarget.copy().normalize().mult(G * target.mass * Particle.mass / distanceSquared);
 
 		// Acceleration = Force / mass
 		const acceleration = (force.copy().div(Particle.mass)).mult(target.forceInversion);
 
 		// p = p0 + v0 * t + 1/2 * a * t^2
-		positionNormalized.add(this.velocity.copy().mult(deltaTime)).add(acceleration.copy().mult(deltaTime * deltaTime / 2));
+		this.position.add(this.velocity.copy().mult(deltaTime)).add(acceleration.copy().mult(deltaTime * deltaTime / 2));
 
 		// v = v0 + a * t
 		this.velocity.add(acceleration.copy().mult(deltaTime));
 		this.velocity.mult(Particle.friction);
 
-		/* Convert position back to pixel units */
-		this.position = positionNormalized.copy().mult(pixelPerMeter);
-
-		/* Prevent particles from going out of the screen */
-		if (this.position.x < 0) {
-			this.position.x = p5.width;
-		}
-
-		if (this.position.x > p5.width) {
-			this.position.x = 0;
-		}
-
-		if (this.position.y < 0) {
-			this.position.y = p5.height;
-		}
-
-		if (this.position.y > p5.height) {
-			this.position.y = 0;
-		}
+		// /* Prevent particles from going out of the screen */
+		// if (this.position.x < 0) {
+		// 	this.position.x = p5.width;
+		// }
+		//
+		// if (this.position.x > p5.width) {
+		// 	this.position.x = 0;
+		// }
+		//
+		// if (this.position.y < 0) {
+		// 	this.position.y = p5.height;
+		// }
+		//
+		// if (this.position.y > p5.height) {
+		// 	this.position.y = 0;
+		// }
 
 		/* Calculate new color according to the velocity */
 		this.color = p5.lerpColor(Particle.initialColor, Particle.finalColor, this.velocity.mag() / Particle.maxColorVelocity);
 	}
 
-	show(p5: p5Types) {
+	show(p5: p5Types, pixelPerMeter: number) {
 		p5.stroke(this.color);
 		p5.strokeWeight(4);
-		p5.point(this.position.x, this.position.y);
+		const positionScreen = this.position.copy().mult(pixelPerMeter);
+		p5.point(positionScreen.x, positionScreen.y);
 	}
 }
 

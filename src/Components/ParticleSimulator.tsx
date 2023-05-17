@@ -97,9 +97,10 @@ const ParticleSimulator: React.FC<ComponentProps> = (props: ComponentProps) => {
 			const randomFloat = (min: number, max: number) => min + ((max - min) * Math.random());
 			const randomAngle1 = randomFloat(0, 2 * Math.PI);
 			const randomAngle2 = randomFloat(0, 2 * Math.PI);
-			const posX = (p5.width / 2) + (mergedProps.spawnAreaRadius * Math.cos(randomAngle1) * Math.sin(randomAngle2));
-			const posY = (p5.height / 2) + (mergedProps.spawnAreaRadius * Math.sin(randomAngle1) * Math.sin(randomAngle2));
-
+			const posX = ((p5.width / 2)
+                + (mergedProps.spawnAreaRadius * Math.cos(randomAngle1) * Math.sin(randomAngle2))) / (mergedProps.pixelsPerMeter);
+			const posY = ((p5.height / 2)
+                + (mergedProps.spawnAreaRadius * Math.sin(randomAngle1) * Math.sin(randomAngle2))) / (mergedProps.pixelsPerMeter);
 			// Create particle
 			particleArray.push(new Particle(p5,
 				posX,
@@ -128,10 +129,10 @@ const ParticleSimulator: React.FC<ComponentProps> = (props: ComponentProps) => {
 		/* Update physics (fixed update) */
 		if (fixedUpdateAccum >= fixedDeltaTime) {
 			// Update attractor
-			attractor.update(p5);
+			attractor.updatePositionFromScreen(p5, mergedProps.pixelsPerMeter);
 			// Update particles
 			particleArray.forEach(particle => {
-				particle.update(p5, attractor, fixedDeltaTime, mergedProps.gravitationalConstant, mergedProps.pixelsPerMeter);
+				particle.update(p5, attractor, fixedDeltaTime, mergedProps.gravitationalConstant);
 			});
 			fixedUpdateAccum = 0;
 		}
@@ -141,9 +142,9 @@ const ParticleSimulator: React.FC<ComponentProps> = (props: ComponentProps) => {
 		screenBuffer.background(mergedProps.backColor[0], mergedProps.backColor[1], mergedProps.backColor[2], mergedProps.backColor[3]);
 
 		// Draw objects
-		attractor.show(screenBuffer);
+		attractor.show(screenBuffer, mergedProps.pixelsPerMeter);
 		particleArray.forEach(particle => {
-			particle.show(screenBuffer);
+			particle.show(screenBuffer, mergedProps.pixelsPerMeter);
 		});
 
 		// Swap buffers

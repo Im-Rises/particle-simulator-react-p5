@@ -10,15 +10,17 @@ class Attractor {
 		this.mass = mass;
 	}
 
-	update(p5: p5Types) {
+	updatePositionFromScreen(p5: p5Types, pixelPerMeter: number) {
 		this.position.x = p5.mouseX;
 		this.position.y = p5.mouseY;
+		this.position.div(pixelPerMeter);
 	}
 
-	show(p5: p5Types) {
+	show(p5: p5Types, pixelPerMeter: number) {
 		p5.stroke(255);
 		p5.strokeWeight(4);
-		p5.point(this.position.x, this.position.y);
+		const positionScreen = this.position.copy().mult(pixelPerMeter);
+		p5.point(positionScreen.x, positionScreen.y);
 	}
 
 	toggleForceInversion() {
