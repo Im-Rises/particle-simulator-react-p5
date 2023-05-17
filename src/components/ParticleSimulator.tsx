@@ -4,7 +4,7 @@ import type p5Types from 'p5';
 import {isMobile} from 'react-device-detect';
 import Attractor from '../Classes/Attractor';
 import Particle from '../Classes/Particle';
-import {PARTICLES_COUNT_COMPUTER, PARTICLES_COUNT_MOBILE} from '../Constants/constant-particle-simulator';
+import {PARTICLES_COUNT_COMPUTER, PARTICLES_COUNT_MOBILE} from '../constants/constant-particle-simulator';
 import './ParticleSimulator.scss';
 
 type Quadruplet = [number, number, number, number];
