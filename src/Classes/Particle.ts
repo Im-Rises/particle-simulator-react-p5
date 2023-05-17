@@ -64,25 +64,27 @@ class Particle {
 		this.velocity.add(acceleration.copy().mult(deltaTime));
 		this.velocity.mult(Particle.friction);
 
-		// /* Prevent particles from going out of the screen */
-		// if (this.position.x < 0) {
-		// 	this.position.x = p5.width;
-		// }
-		//
-		// if (this.position.x > p5.width) {
-		// 	this.position.x = 0;
-		// }
-		//
-		// if (this.position.y < 0) {
-		// 	this.position.y = p5.height;
-		// }
-		//
-		// if (this.position.y > p5.height) {
-		// 	this.position.y = 0;
-		// }
-
 		/* Calculate new color according to the velocity */
 		this.color = p5.lerpColor(Particle.initialColor, Particle.finalColor, this.velocity.mag() / Particle.maxColorVelocity);
+	}
+
+	moveObjectOutOfScreen(p5: p5Types, pixelPerMeter: number) {
+		/* Prevent particles from going out of the screen */
+		if (this.position.x < 0) {
+			this.position.x = p5.width / pixelPerMeter;
+		}
+
+		if (this.position.x > p5.width / pixelPerMeter) {
+			this.position.x = 0;
+		}
+
+		if (this.position.y < 0) {
+			this.position.y = p5.height / pixelPerMeter;
+		}
+
+		if (this.position.y > p5.height / pixelPerMeter) {
+			this.position.y = 0;
+		}
 	}
 
 	show(p5: p5Types, pixelPerMeter: number) {

@@ -133,6 +133,7 @@ const ParticleSimulator: React.FC<ComponentProps> = (props: ComponentProps) => {
 			// Update particles
 			particleArray.forEach(particle => {
 				particle.update(p5, attractor, fixedDeltaTime, mergedProps.gravitationalConstant);
+				particle.moveObjectOutOfScreen(p5, mergedProps.pixelsPerMeter);
 			});
 			fixedUpdateAccum = 0;
 		}
