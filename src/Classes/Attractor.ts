@@ -5,8 +5,9 @@ class Attractor {
 	mass = 250;
 	forceInversion = 1;
 
-	constructor(p5: p5Types, mass: number) {
+	constructor(p5: p5Types, mass: number, pixelPerMeter: number) {
 		this.position = p5.createVector(p5.mouseX, p5.mouseY);
+		this.position.div(pixelPerMeter);
 		this.mass = mass;
 	}
 

@@ -47,7 +47,7 @@ class Particle {
 	update(p5: p5Types, target: Attractor, deltaTime: number, G: number) {
 		/* Calculate acceleration */
 		const toTarget = p5Types.Vector.sub(target.position, this.position);
-		const distance = (toTarget.copy().mag());
+		const distance = toTarget.copy().mag();
 		// const distanceSquaredNormalized = ((distanceNormalized ** 2) + (Particle.softening ** 2)) ** (3 / 2);
 		const distanceSquared = ((distance ** 2) + Particle.softening);
 

@@ -77,7 +77,7 @@ const ParticleSimulator: React.FC<ComponentProps> = (props: ComponentProps) => {
 		p5.mouseY = p5.height / 2;
 
 		// Create attractor
-		attractor = new Attractor(p5, mergedProps.attractorMass);
+		attractor = new Attractor(p5, mergedProps.attractorMass, mergedProps.pixelsPerMeter);
 
 		// Create and set the particles around the center of the screen as a square
 		Particle.setMass(mergedProps.particlesMass);
