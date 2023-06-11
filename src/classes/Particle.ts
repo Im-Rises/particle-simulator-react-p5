@@ -57,18 +57,18 @@ class Particle {
 		// Acceleration = Force / mass
 		const acceleration = (force.copy().div(Particle.mass)).mult(target.forceInversion);
 
-		// p = p0 + v0 * t + 1/2 * a * t^2
-		this.position.add(this.velocity.copy().mult(deltaTime)).add(acceleration.copy().mult(deltaTime * deltaTime / 2));
-
 		// v = v0 + a * t
 		this.velocity.add(acceleration.copy().mult(deltaTime));
 		this.velocity.mult(Particle.friction);
+
+		// p = p0 + v0 * t + 1/2 * a * t^2
+		this.position.add(this.velocity.copy().mult(deltaTime)).add(acceleration.copy().mult(deltaTime * deltaTime / 2));
 
 		/* Calculate new color according to the velocity */
 		this.color = p5.lerpColor(Particle.initialColor, Particle.finalColor, this.velocity.mag() / Particle.maxColorVelocity);
 	}
 
-	moveObjectOutOfScreen(p5: p5Types, pixelPerMeter: number) {
+	clampToScreen(p5: p5Types, pixelPerMeter: number) {
 		/* Prevent particles from going out of the screen */
 		if (this.position.x < 0) {
 			this.position.x = p5.width / pixelPerMeter;
