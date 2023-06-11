@@ -129,23 +129,18 @@ const ParticleSimulator: React.FC<ComponentProps> = (props: ComponentProps) => {
 		/* Calculate deltaTime and update fixedUpdateAccum */
 		const currentTime = p5.millis();
 		const deltaTime = (currentTime - previousTime) / 1000;// in seconds
-		previousTime = currentTime;
-		fixedUpdateAccum += deltaTime;
-
-		/* Read inputs */
-		// At the moment it is directly in the attractor.update() function for the mouse position
-		// And the toggleAttractedRepulsed() function is called in the mousePressed() callback
 
 		/* Update physics (fixed update) */
-		if (fixedUpdateAccum >= fixedDeltaTime) {
+		fixedUpdateAccum += deltaTime;
+		while (fixedUpdateAccum >= fixedDeltaTime) {
 			// Update attractor
 			attractor.updatePositionFromScreen(p5, mergedProps.pixelsPerMeter);
 			// Update particles
 			particleArray.forEach(particle => {
 				particle.update(p5, attractor, fixedDeltaTime, mergedProps.gravitationalConstant);
-				particle.moveObjectOutOfScreen(p5, mergedProps.pixelsPerMeter);
+				particle.clampToScreen(p5, mergedProps.pixelsPerMeter);
 			});
-			fixedUpdateAccum = 0;
+			fixedUpdateAccum -= fixedDeltaTime;
 		}
 
 		/* Update canvas */
@@ -160,6 +155,9 @@ const ParticleSimulator: React.FC<ComponentProps> = (props: ComponentProps) => {
 
 		// Swap buffers
 		p5.image(screenBuffer, 0, 0);
+
+		// Update previous time
+		previousTime = currentTime;
 	};
 
 	// Sketch window resize
