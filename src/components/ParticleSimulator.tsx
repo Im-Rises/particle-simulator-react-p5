@@ -136,6 +136,7 @@ const ParticleSimulator: React.FC<ComponentProps> = (props: ComponentProps) => {
 			// Update attractor
 			attractor.updatePositionFromScreen(p5, mergedProps.pixelsPerMeter);
 			// Update particles
+			// eslint-disable-next-line @typescript-eslint/no-loop-func
 			particleArray.forEach(particle => {
 				particle.update(p5, attractor, fixedDeltaTime, mergedProps.gravitationalConstant);
 				particle.clampToScreen(p5, mergedProps.pixelsPerMeter);
